@@ -16,7 +16,8 @@ describe('Bookish application', function () {
     beforeEach(() => {
         const books = [
             { 'name': 'Refactoring', 'id': 1 },
-            { 'name': 'Domain-driven design', 'id': 2 }, { 'name': 'Building Microservices', 'id': 3 }
+            { 'name': 'Domain-driven design', 'id': 2 }, 
+            { 'name': 'Building Microservices', 'id': 3 }
         ]
         return books.map(item => axios.post('http://localhost:8080/books', item,
             { headers: { 'Content-Type': 'application/json' } })
