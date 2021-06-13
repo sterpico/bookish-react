@@ -2,21 +2,27 @@ import axios from "axios";
 
 describe('Bookish application', function () {
 
-    before(() => {
-        return axios
-            .delete('http://localhost:8080/books?_cleanup=true')
-            .catch((err) => err);
+    before(async () => {
+        try {
+            return axios
+                .delete('http://localhost:8080/books?_cleanup=true');
+        } catch (err) {
+            return err;
+        }
     });
-    afterEach(() => {
-        return axios
-            .delete('http://localhost:8080/books?_cleanup=true')
-            .catch(err => err)
+    afterEach(async () => {
+        try {
+            return axios
+                .delete('http://localhost:8080/books?_cleanup=true');
+        } catch (err) {
+            return err;
+        }
     })
 
     beforeEach(() => {
         const books = [
             { 'name': 'Refactoring', 'id': 1 },
-            { 'name': 'Domain-driven design', 'id': 2 }, 
+            { 'name': 'Domain-driven design', 'id': 2 },
             { 'name': 'Building Microservices', 'id': 3 }
         ]
         return books.map(item => axios.post('http://localhost:8080/books', item,
@@ -41,5 +47,12 @@ describe('Bookish application', function () {
 
         })
 
+    })
+
+    it('Goes to the detail page', () => {
+        cy.visit('http://localhost:3000/');
+        cy.get('div.book-item').contains('View Details').eq(0).click();
+        cy.url().should('include', '/books/1')
+        cy.get('h2.book-title').contains('Refactoring');
     })
 })
